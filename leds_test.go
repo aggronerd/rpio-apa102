@@ -1,7 +1,7 @@
 // Copyright 2019 Gregory Doran <greg@gregorydoran.co.uk>.
 // All rights reserved.
 
-package rpio_apa102
+package rpioapa102
 
 import (
 	"github.com/stretchr/testify/assert"

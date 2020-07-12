@@ -5,8 +5,4 @@ Golang module for the APA102 LED on the Raspberry Pi using the
 
 ## Usage
 
-TODO
-
-## Examples
-
-TODO
+See examples in [`examples`](./examples)
