@@ -8,6 +8,9 @@ import (
 	"github.com/stianeikeland/go-rpio/v4"
 )
 
+// MaxBrightness is the highest brightness value supported by the LEDs
+const MaxBrightness = 31
+
 // LEDController retains state and methods to control the APA102 on open SPI
 type LEDController struct {
 	pin rpio.SpiDev
@@ -50,8 +53,9 @@ type LED struct {
 }
 
 func (l LED) asFrame() []byte {
-	if l.Brightness > 31 {
-		panic(fmt.Errorf("brightness of %d is invalid must be 0-31", l.Brightness))
+	if l.Brightness > MaxBrightness {
+		panic(fmt.Errorf(
+			"brightness of %d is invalid must be 0-%d", l.Brightness, MaxBrightness))
 	}
 
 	return []byte{0xE0 | l.Brightness, l.Blue, l.Green, l.Red}
