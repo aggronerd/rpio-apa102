@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestLEDS_asFrame(t *testing.T) {
+func TestLEDS_AsFrame(t *testing.T) {
 	led := LED{
 		Red:        34,
 		Green:      223,
@@ -19,7 +19,7 @@ func TestLEDS_asFrame(t *testing.T) {
 	assert.Equal(t, []byte{0xF4, 0x65, 0xDF, 0x22}, led.AsFrame())
 }
 
-func TestLEDs_asFrameInvalid(t *testing.T) {
+func TestLEDs_AsFrameInvalid(t *testing.T) {
 	led := LED{
 		Red:        34,
 		Green:      223,
@@ -32,7 +32,7 @@ func TestLEDs_asFrameInvalid(t *testing.T) {
 	})
 }
 
-func TestLEDs_asHTML(t *testing.T) {
+func TestLEDs_AsHTML(t *testing.T) {
 	led := LED{
 		Red:        34,
 		Green:      223,
@@ -43,7 +43,7 @@ func TestLEDs_asHTML(t *testing.T) {
 	assert.Equal(t, "#22df65", led.AsHTML())
 }
 
-func TestLEDs_asHTMLInvalid(t *testing.T) {
+func TestLEDs_AsHTMLInvalid(t *testing.T) {
 	led := LED{
 		Red:        34,
 		Green:      223,
