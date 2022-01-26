@@ -4,6 +4,7 @@
 package rpioapa102
 
 import (
+	"encoding/hex"
 	"fmt"
 	"github.com/stianeikeland/go-rpio/v4"
 )
@@ -25,7 +26,7 @@ func (c *LEDController) Finish() {
 func (c *LEDController) Write(ledSlice []LED) {
 	rpio.SpiTransmit([]byte{0x00, 0x00, 0x00, 0x00}...)
 	for _, led := range ledSlice {
-		rpio.SpiTransmit(led.asFrame()...)
+		rpio.SpiTransmit(led.AsFrame()...)
 	}
 	rpio.SpiTransmit([]byte{0xFF, 0xFF, 0xFF, 0xFF}...)
 }
@@ -52,11 +53,19 @@ type LED struct {
 	Brightness byte
 }
 
-func (l LED) asFrame() []byte {
+func (l LED) validate() {
 	if l.Brightness > MaxBrightness {
 		panic(fmt.Errorf(
 			"brightness of %d is invalid must be 0-%d", l.Brightness, MaxBrightness))
 	}
+}
 
+func (l LED) AsFrame() []byte {
+	l.validate()
 	return []byte{0xE0 | l.Brightness, l.Blue, l.Green, l.Red}
+}
+
+func (l LED) AsHTML() string {
+	l.validate()
+	return "#" + hex.EncodeToString([]byte{l.Red, l.Green, l.Blue})
 }
