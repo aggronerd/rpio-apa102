@@ -11,17 +11,19 @@ import (
 func TestParseColour_htmlShort(t *testing.T) {
 	led, err := ParseColour("#feb")
 	assert.NoError(t, err)
-	assert.Equal(t, byte(0xff), led.Red)
-	assert.Equal(t, byte(0xee), led.Green)
-	assert.Equal(t, byte(0xbb), led.Blue)
+	r, g, b := led.Colour.RGB255()
+	assert.Equal(t, byte(0xff), r)
+	assert.Equal(t, byte(0xee), g)
+	assert.Equal(t, byte(0xbb), b)
 }
 
 func TestParseColour_htmlLong(t *testing.T) {
 	led, err := ParseColour("#a87932")
 	assert.NoError(t, err)
-	assert.Equal(t, byte(168), led.Red)
-	assert.Equal(t, byte(121), led.Green)
-	assert.Equal(t, byte(50), led.Blue)
+	r, g, b := led.Colour.RGB255()
+	assert.Equal(t, byte(168), r)
+	assert.Equal(t, byte(121), g)
+	assert.Equal(t, byte(50), b)
 }
 
 func TestParseColour_invalid(t *testing.T) {

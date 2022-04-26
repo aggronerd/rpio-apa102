@@ -8,11 +8,9 @@ import (
 	"testing"
 )
 
-var baseLED = LED{
-	Red:        45,
-	Green:      21,
-	Blue:       92,
-	Brightness: 31,
+func baseLED() LED {
+	return LEDFromIntRGB(
+		45, 21, 92)
 }
 
 func TestSpinnerState_CurrentState_Bottom(t *testing.T) {
@@ -20,7 +18,7 @@ func TestSpinnerState_CurrentState_Bottom(t *testing.T) {
 		pos:      2,
 		Spread:   3,
 		LEDCount: 9,
-		BaseLED:  baseLED,
+		BaseLED:  baseLED(),
 	}
 
 	returned := state.CurrentState()
@@ -39,7 +37,7 @@ func TestSpinnerState_CurrentState_Top(t *testing.T) {
 		pos:      14,
 		Spread:   4,
 		LEDCount: 15,
-		BaseLED:  baseLED,
+		BaseLED:  baseLED(),
 	}
 
 	returned := state.CurrentState()
