@@ -18,6 +18,7 @@ race: get ## Run data race detector
 build: get ## Build the example binary files
 	@mkdir -p target/arm/bin
 	@GOOS=linux GOARCH=arm GOARM=6 go build -o target/arm/bin/basic ./examples/basic
+	@GOOS=linux GOARCH=arm GOARM=6 go build -o target/arm/bin/fade_up ./examples/fade_up
 	@GOOS=linux GOARCH=arm GOARM=6 go build -o target/arm/bin/spinner ./examples/spinner
 
 clean: ## Remove previous build
