@@ -23,12 +23,7 @@ func main() {
 	rgbLEDs := make([]rpioapa102.LED, ledCount)
 
 	for i := 0; i < ledCount; i++ {
-		rgbLEDs[i] = rpioapa102.LED{
-			Red:        47,
-			Green:      90,
-			Blue:       94,
-			Brightness: 1,
-		}
+		rgbLEDs[i] = rpioapa102.LEDFromIntRGBB(47, 90, 94, 1)
 	}
 
 	controller.Write(rgbLEDs)

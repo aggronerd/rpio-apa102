@@ -25,13 +25,7 @@ func main() {
 	controller := rpioapa102.NewLEDController(rpio.Spi0)
 	defer controller.Finish()
 
-	led := rpioapa102.LED{
-		Red:        178,
-		Green:      255,
-		Blue:       0,
-		Brightness: 15,
-	}
-
+	led := rpioapa102.LEDFromIntRGBB(178, 255, 0, 15)
 	spinner := rpioapa102.NewSpinner(18, 4, led)
 	for {
 		// Write the new spinner state
