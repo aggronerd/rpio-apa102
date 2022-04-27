@@ -28,11 +28,7 @@ func main() {
 	defer controller.Finish()
 
 	colour, _ := colorful.Hex("#70a9ff")
-	fadeUpState := rpioapa102.FadeUp{
-		Rows:   4,
-		Cols:   8,
-		Colour: colour,
-	}
+	fadeUpState, _ := rpioapa102.NewFadeUp(4, 8, colour, true)
 
 	startTime := time.Now()
 	pos := 0.0

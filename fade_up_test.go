@@ -30,6 +30,30 @@ func spanLED(led LED, n uint) []LED {
 	return items
 }
 
+func TestNewFadeUp_invalidColour(t *testing.T) {
+	invalidColour := colorful.Color{R: 2.0, G: 2.0, B: 1.0}
+	_, err := NewFadeUp(2, 2, invalidColour, false)
+	assert.Error(t, err)
+}
+
+func TestNewFadeUp_noRows(t *testing.T) {
+	colour := colorful.WarmColor()
+	_, err := NewFadeUp(0, 2, colour, false)
+	assert.Error(t, err)
+}
+
+func TestNewFadeUp_noCols(t *testing.T) {
+	colour := colorful.WarmColor()
+	_, err := NewFadeUp(2, 0, colour, false)
+	assert.Error(t, err)
+}
+
+func TestNewFadeUp_ok(t *testing.T) {
+	colour := colorful.WarmColor()
+	_, err := NewFadeUp(2, 2, colour, false)
+	assert.Nil(t, err)
+}
+
 func TestFadeUp_CurrentLEDs_full(t *testing.T) {
 	colour := colorful.Color{
 		R: 0.5,
@@ -41,9 +65,10 @@ func TestFadeUp_CurrentLEDs_full(t *testing.T) {
 		Brightness: MaxBrightness,
 	}
 	example := FadeUp{
-		Cols:   8,
-		Rows:   4,
-		Colour: colour,
+		cols:      8,
+		rows:      4,
+		colour:    colour,
+		direction: false,
 	}
 
 	// First phase
@@ -99,9 +124,10 @@ func TestFadeUp_CurrentLEDs_simple(t *testing.T) {
 		Brightness: MaxBrightness,
 	}
 	example := FadeUp{
-		Cols:   1,
-		Rows:   2,
-		Colour: colour,
+		cols:      1,
+		rows:      2,
+		colour:    colour,
+		direction: false,
 	}
 
 	// First phase
@@ -120,6 +146,47 @@ func TestFadeUp_CurrentLEDs_simple(t *testing.T) {
 		append(
 			spanLED(full, 1),
 			spanLED(half, 1)...),
+		example.CurrentLEDs(2.0/3.0))
+
+	// 4th phase
+	assert.Equal(t,
+		spanLED(full, 2),
+		example.CurrentLEDs(1.0))
+}
+
+func TestFadeUp_CurrentLEDs_reverse(t *testing.T) {
+	colour := colorful.Color{
+		R: 0.2,
+		G: 0.3,
+		B: 0.9}
+	half := halfFaded(colour)
+	full := LED{
+		Colour:     colour,
+		Brightness: MaxBrightness,
+	}
+	example := FadeUp{
+		cols:      1,
+		rows:      2,
+		colour:    colour,
+		direction: true,
+	}
+
+	// First phase
+	assert.Equal(t,
+		spanLED(blackLED(), 2),
+		example.CurrentLEDs(0))
+
+	// Second phase
+	assert.Equal(t,
+		append(spanLED(blackLED(), 1),
+			spanLED(half, 1)...),
+		example.CurrentLEDs(1.0/3.0))
+
+	// 3rd phase
+	assert.Equal(t,
+		append(
+			spanLED(half, 1),
+			spanLED(full, 1)...),
 		example.CurrentLEDs(2.0/3.0))
 
 	// 4th phase
