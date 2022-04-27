@@ -14,12 +14,13 @@ const durationMinutes = 2
 const sleepMilliseconds = 100
 
 /*
- * A very basic example that will create a spinner effect based on a set number of LEDs in a ring.
- * The base colour and brightness is set and Spinner will generate the various states in sequence
- * to give a smooth spinning effect.
+ * Example that assumes you've got 32 LEDs arranged in 4 rows. It will gradually fade in the colour
+ * row-by-row from the furthest row to the closest row (being from SPI connection). Tested with
+ * APA102 LED strip connected to Raspberry Pi.
  */
 func main() {
 	err := rpio.Open()
+	defer rpio.Close()
 	if err != nil {
 		panic(err)
 	}
